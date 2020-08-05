@@ -4,17 +4,7 @@ let board = [
   ["", "", ""],
 ];
 
-const matchRow = (board, player) => {
-  for (let row = 0; row <= 2; row++) {
-    for (let col = 0; col <= 2; col++) {
-      if (board[row][col] !== player) break;
-
-      if (col === 2) return `player ${player}  is winner`;
-    }
-  }
-};
-
-const matchRowOrDiagonal = (board, player) => {
+const checkBoard = (board, player) => {
   let canDiagonalLeft = board[0][0] === player ? true : false;
   let canDiagonalRight = board[0][2] === player ? true : false;
 
@@ -22,6 +12,19 @@ const matchRowOrDiagonal = (board, player) => {
   let countMatchDiagonalRight = canDiagonalRight ? 1 : 0;
 
   for (let row = 0; row <= 2; row++) {
+    let countMatchCol = 0;
+    let colForMatchCol = row;
+
+    for (let rowForMatchCol = 0; rowForMatchCol <= 2; rowForMatchCol++) {
+      if (board[rowForMatchCol][colForMatchCol] === player) {
+        countMatchCol += 1;
+
+        if (countMatchCol === 3) return true;
+      } else {
+        break;
+      }
+    }
+
     if (
       JSON.stringify(board[row]) === JSON.stringify([player, player, player])
     ) {
@@ -48,27 +51,6 @@ const matchRowOrDiagonal = (board, player) => {
   }
 };
 
-const matchCol = (board, player) => {
-  for (let col = 0; col <= 2; col++) {
-    let countMatch = 0;
-
-    for (let row = 0; row <= 2; row++) {
-      if (board[row][col] === player) {
-        countMatch += 1;
-      } else {
-        break;
-      }
-    }
-    if (countMatch === 3) return true;
-  }
-};
-
-function checkBoard(board, player) {
-  if (matchRowOrDiagonal(board, player) || matchCol(board, player)) {
-    return `player ${player}  is winner`;
-  }
-}
-
 allCell = [
   [0, 0],
   [0, 1],
@@ -81,8 +63,7 @@ allCell = [
   [2, 2],
 ];
 let noHasPlayerWin;
-let i = 2;
-for (; i <= 10; i++) {
+for (let i = 2; i <= 10; i++) {
   let player = i % 2 === 0 ? "x" : "o";
   pos = Math.floor(Math.random() * allCell.length);
   row = allCell[pos][0];
@@ -92,7 +73,7 @@ for (; i <= 10; i++) {
 
   if (whoWin) {
     console.log(board);
-    console.log(whoWin);
+    console.log(`player ${player} is winner`);
     break;
   }
   allCell.splice(pos, 1);
