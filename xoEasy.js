@@ -72,12 +72,16 @@ for (let i = 2; i <= 10; i++) {
   let whoWin = checkBoard(board, player);
 
   if (whoWin) {
-    console.log(board);
+    console.log(board[0]);
+    console.log(board[1]);
+    console.log(board[2]);
     console.log(`player ${player} is winner`);
     break;
   }
   allCell.splice(pos, 1);
-  console.log(board);
+  console.log(board[0]);
+  console.log(board[1]);
+  console.log(board[2]);
   console.log("<---------------------->");
   if (i === 10) {
     noHasPlayerWin = "Draw No one win";
